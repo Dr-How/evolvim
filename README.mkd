@@ -1,1 +1,1 @@
-This is a fork of redacted/surface-evolver-vim.
+This is a fork of [redacted/surface-evolver-vim](https://github.com/redacted/surface-evolver-vim).
