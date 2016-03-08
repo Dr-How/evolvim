@@ -1,7 +1,1 @@
-The syntax files required to handle Surface Evolver (http://www.susqu.edu/brakke/evolver/evolver.html) scripts in vim. 
-
-Original syntax highlighting provided courtesy of Muwn Gu (muwn.gu at gmail dot com)
-
-Repackaged as ftplugin/detect by Steven Tobin
-
-Any suggestions/improvements welcome.
+This is a fork of redacted/surface-evolver-vim.
