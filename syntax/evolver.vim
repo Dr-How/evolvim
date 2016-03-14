@@ -19,6 +19,7 @@ runtime! syntax/c.vim
 unlet b:current_syntax
 
 syn case ignore
+syn clear cUserCont " so that := are not confused with C-labels
 
 syn keyword     seModes         STRING SOAPFILM EUCLIDEAN TORUS TORUS_FILLED
 syn keyword     seCurvature	SQUARE_CURVATURE MEAN_CURVATURE_INTEGRAL GAUSS_CURVATURE SQUARE_GAUSSIAN_CURVATURE
@@ -40,7 +41,7 @@ syn keyword     seTopDefs       HESSIAN_SPECIAL_NORMAL_VECTORS
 
 
 syn keyword	seElements	VERTICES EDGES FACES FACETS BODIES READ
-syn keyword	seAttributes	color fixed constraints volume density  pressure  no_refine local
+syn keyword	seAttributes	color fixed constraints volume density  pressure  no_refine local bare
 
 syn keyword	seCommands	read
 
@@ -50,38 +51,24 @@ syn keyword	seRepeat	foreach do
 
 syn match seLineContinuation	"\\$"
 
-" If you do not want these operators lit, uncommment them and the "hi link" below
-" syn match seArithmeticOperator	"[-+]"
-" syn match seArithmeticOperator	"\.\=[*/\\^]"
-" syn match seRelationalOperator	"[=~]="
-" syn match seRelationalOperator	"[<>]=\="
-" syn match seLogicalOperator		"[&|~]"
-
-
-" If you don't like tabs
-" syn match seTab			"\t"
-
-" Standard numbers
-" syn match seNumber		"\<\d\+[ij]\=\>"
-" floating point number, with dot, optional exponent
-" syn match seFloat		"\<\d\+\(\.\d*\)\=\([edED][-+]\=\d\+\)\=[ij]\=\>"
-" floating point number, starting with a dot, optional exponent
-" syn match seFloat		"\.\d\+\([edED][-+]\=\d\+\)\=[ij]\=\>"
-
-" Transpose character and delimiters: Either use just [...] or (...) aswell
-" syn match seDelimiter		"[][]"
-"syn match seDelimiter		"[][()]"
-" syn match seTransposeOperator	"[])a-zA-Z0-9.]'"lc=1
-
-syn match seSemicolon		";"
+" syn match seSemicolon		";"
 
 " syn region secomment			start="/\*" end="\*/"	oneline
 
 syn keyword seFucntion		abs acos atan asin cos cosh exp log prod sum
 syn keyword seFunction		log10 max min sign sin sqrt tan reshape
 
-" syn match seError	"-\=\<\d\+\.\d\+\.[^*/\\^]"
-" syn match seError	"-\=\<\d\+\.\d\+[eEdD][-+]\=\d\+\.\([^*/\\^]\)"
+syn keyword seOnOff		on off
+
+syn keyword seToggleCmd		ambient_pressure approximate_curvature area_normalization assume_oriented augmented_hessian autochop autodisplay autopop autopop_quartic autorecalc backcull bezier_basis big_endian blas_flag boundary_curvature break_after_warning break_on_warning bunch-kauffman calculate_in_3d-kauffman check_increase circular_arc_draw clip_view clipped colormap conf_edge conj_grad connected debug detorus_sticky deturck diffusion dirichlet_mode effective_area estimate facet_colors force_deletion force_edgeswap full_bounding_box nction_quantity_sparse gravity gv_binary hessian_diff hessian_normal hessian_normal_one hessian_normal_perp hessian_quiet hessian_special_normal homothety immediate_autopop interp_normals interp_bdry_param itdebug jiggle k_altitude_mode kusner linear_metric little_endian memdebug metis_factor metric_convert no_dump normal_motion old_area quantities_only quiet quietgo quietload pinning pop_disjoin pop_enjoin post_project ps_cmykflag ps_colorflag ps_crossingflag ps_gridflag ps_labelflag raw_cells rgb_colors ribiere rotate_lights runge_kutta self_similar shading show_all_edges show_all_quantities show_inner show_outer slice_view smooth_graph sobolev_mode sparse_constraints squared_gradient star_finagling thicken torus_filled transforms view_4D view_transforms_use_unique_point verbose visibility_test volgrads_every ysmp
+
+syn keyword seGeneralCmd	ABORT ADDLOAD AREAWEED BINARY_PRINTF BODY_METIS BREAKPOINT CHDIR CLOSE_SHOW DEFINE DELETE DELETE_TEXT DETORUS DIRICHLET DIRICHLET_SEEK DISPLAY_TEXT DISSOLVE DUMP DUMP_MEMLIST EDGE_MERGE EDGESWAP EDGEWEED EIGENPROBE EQUIANGULATE ERRPRINTF EXEC EXPRINT FACET_CROSSCUT FACET_MERGE FIX FLUSH_COUNTS FREE_DISCARDS GEOMPIPE GEOMVIEW HELP HESSIAN HESSIAN_MENU HESSIAN_SEEK HISTOGRAM HISTORY KMETIS LAGRANGE LANCZOS LINEAR LIST ATTRIBUTES BOTTOMINFO PROCEDURES TOPINFO LOAD LONGJ MATRIX_INVERSE MATRIX_MULTIPLY METIS MOVE NEW_VERTEX NEW_EDGE NEW_FACET NEW_BODY NOTCH OMETIS OOGLFILE OPTIMIZE PAUSE PERMLOAD POP POP_EDGE_TO_TRI POP_QUAD_TO_QUAD POP_TRI_TO_EDGE POSTSCRIPT PRINT PRINTF QUADRATIC QUIT RAWESTV RAWEST_VERTEX_AVERAGE RAWV RAW_VERTEX_AVERAGE READ REBODY RECALC REFINE REPLACE_LOAD RESET_COUNTS REVERSE_ORIENTATION RITZ RENUMBER_ALL REORDER_STORAGE SADDLE SET SHELL SHOW SHOW_EXPR SHOWQ SIMPLEX_TO_FE SOBOLEV SPRINTF SUBCOMMAND SYSTEM T1_EDGESWAP UNFIX UNSET VERTEX_AVERAGE VERTEX_MERGE WHEREAMI WRAP_VERTEX ZOOM
+
+" syn clear cBlock
+" syn region seBlock		start="{" end="}" contains=ALL keepend fold
+
+syn match seSingleCmd		"\s\+\zs\a\ze\s*\(;\|\d\)" containedin=ALL
+" TODO: could start with { and end with }, but that will interfere with cBlock in c.vim
 
 " Define the default highlighting.
 " For version 5.7 and earlier: only when not done already
@@ -89,20 +76,24 @@ syn keyword seFunction		log10 max min sign sin sqrt tan reshape
 if version >= 508 || !exists("did_se_syntax_inits")
   if version < 508
     let did_se_syntax_inits = 1
-    command -nargs=+ HiLink hi link <args>
+    command! -nargs=+ HiLink hi link <args>
   else
-    command -nargs=+ HiLink hi def link <args>
+    command! -nargs=+ HiLink hi def link <args>
   endif
 
   HiLink seTopOptions		PreProc
   HiLink seTopDefs		Define
+  HiLink seToggleCmd		seCommands
+  HiLink seGeneralCmd		seCommands
+  HiLink seCommands		Statement
+  HiLink seSingleCmd		SpecialChar
   HiLink seElements		Structure
   HiLink seAttributes		Identifier
   HiLink seLineContinuation	Special
   HiLink seConditional		Conditional
   HiLink seRepeat		Repeat
-  HiLink seSemicolon		SpecialChar
   HiLink seFunction		Function
+  HiLink seOnOff		Constant
 
   " HiLink seTodo			Todo
   " HiLink seString		String
@@ -125,6 +116,15 @@ if version >= 508 || !exists("did_se_syntax_inits")
 
   delcommand HiLink
 endif
+
+" If you do not want these operators lit, uncommment them and the "hi link" below
+" syn match seArithmeticOperator	"[-+]"
+" syn match seArithmeticOperator	"\.\=[*/\\^]"
+" syn match seRelationalOperator	"[=~]="
+" syn match seRelationalOperator	"[<>]=\="
+" syn match seLogicalOperator		"[&|~]"
+" If you don't like tabs
+" syn match seTab			"\t"
 
 let b:current_syntax = "evolver"
 

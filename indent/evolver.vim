@@ -14,6 +14,7 @@ let b:did_indent = 1
 setlocal nolisp nocindent
 setlocal autoindent
 setlocal indentexpr=GetEvolverIndent()
+setlocal indentkeys={,},;
 
 if exists ("*GetEvolverIndent")
 	finish
@@ -45,21 +46,7 @@ function! GetEvolverIndent()
 		let l:ind -= &sw
 	endif
 
-	return l:ind
+	" TODO: what if the user open or close two parentheses in one line?
 
-	" let lnum1 = SkipBlanksAndComments(v:lnum-1)
-	" silent normal! 0[{
-	" let lnum2 = line('.')
-	" if getline(lnum1) =~ ':='
-	" 	if lnum2==lnum1
-	" 		return indent(lnum1)+&sw
-	" 	else
-	" 		return indent(lnum1)
-	" 	endif
-	" 	" silent normal! O;<Esc>
-	" 	" silent normal! u
-	" 	" return ind
-	" endif
-	"
-	" return cindent(v:lnum)
+	return l:ind
 endfunction
