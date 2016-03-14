@@ -39,7 +39,7 @@ syn keyword     seTopDefs       VIEW_TRANSFORM_GENERATORS PERIODS
 syn keyword     seTopDefs       HESSIAN_SPECIAL_NORMAL_VECTORS
 
 
-syn keyword	seElements	VERTICES EDGES FACES BODIES READ
+syn keyword	seElements	VERTICES EDGES FACES FACETS BODIES READ
 syn keyword	seAttributes	color fixed constraints volume density  pressure  no_refine local
 
 syn keyword	seCommands	read
