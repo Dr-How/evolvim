@@ -46,7 +46,7 @@ function! GetEvolverIndent()
 		let l:ind -= &sw
 	endif
 
-	" TODO: what if the user open or close two parentheses in one line?
+	" TODO: The user can not open or close two parentheses in one line?
 
 	return l:ind
 endfunction
