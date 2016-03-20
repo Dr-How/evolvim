@@ -1,3 +1,8 @@
-This is a fork of [redacted/surface-evolver-vim](https://github.com/redacted/surface-evolver-vim).
+This is a Vim plugin for [Brakke's Surface Evolver](http://facstaff.susqu.edu/brakke/evolver/evolver.html), and my first Vim plugin.
 
-Syntax and indentation improved.
+It was originally a fork of [redacted/surface-evolver-vim](https://github.com/redacted/surface-evolver-vim).  But then I have to abandon most of the original codes and completely rewrite the plugin.  The syntax is based on the C syntax, with modifications.  They list keywords are obtained from Suface Evolver's documentation.  For the indentation, Cindent does not work because of := notation, so I have to write another indent function.
+
+The plugin is now functional.  Future plans include
+* Show edge information when editing faces.
+* Format matrices.
+Bug report and suggestions welcome!
