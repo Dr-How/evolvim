@@ -1,6 +1,7 @@
+" Vim indent file
 " Language: Surface evolver
-" Maintainter: Hao Chen
-" Last Change: 2016 Mar 13
+" Maintainter: Hao Chen <hao.chen.math@gmail.com>
+" Last Change: 13.03.2016
 "
 " TODO:
 " - Different indentation before and after read;
