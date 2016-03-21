@@ -73,6 +73,7 @@ syn region seFacesList		end="^\ze\s*\a" matchgroup=seElementsBegin start="^\s*fa
 syn region seFacesList		end="^\ze\s*\a" matchgroup=seElementsBegin start="^\s*facets\s*$" fold contains=TOP
 syn region seBodiesList		end="^\ze\s*\a" matchgroup=seElementsBegin start="^\s*bodies\s*$" fold contains=TOP
 syn cluster seElementsList	contains=seVerticesList,seEdgesList,seFacesList,seBodiesList
+
 syn keyword seVertexAttr	contained containedin=seVerticesList,seProgram id original valence bare fixed constraint constraints on_constraint hit_constraint value_of_constraint v_constraint_list boundary on_boundary v_boundary on_quantity on_method_instance v_method_list vertex_normal vertexnormal dihedral mean_curvature sqcurv mid_edge mid_facet axial_point triple_point tetra_point v_force v_velocity raw_velocity v_oldx
 
 syn keyword seEdgeAttr		contained containedin=seEdgesList,seProgram id oid original length density tension fixed midv valence bare constraint constraints on_constraint e_constraint_list boundary on_boundary e_boundary color edge_vector, x,y,z no_refine no_transform wrap wrap_list show orientation frontbody backbody dihedral noncontent on_quantity on_method_instance e_method_list 
@@ -83,7 +84,6 @@ syn keyword seBodyAttr		contained containedin=seBodiesList,seProgram id original
 
 syn cluster seElementAttr	contains=seVertexAttr,seEdgeAttr,seFaceAttr,seBodyAttr
 
-
 syn region seProgram		end="\%$" matchgroup=seRead start="^\s*read\s*$" fold contains=TOP,@seElementsList
 syn match	seElements	"^\@!\s*\zs\%(vertices\|vertex\|edges\|edge\|facets\|facet\|faces\|face\|bodies\|body\)\>"
 syn match seRelatedElements	contained containedin=seProgram "\.\%(vertices\|vertex\|edges\|edge\|faces\|face\|facets\facet\|bodies\|body\)"hs=s+1
@@ -91,7 +91,9 @@ syn match seCoordinates		contained containedin=seProgram "\.\(x\|y\|z\|w\|p\)"hs
 syn keyword 	seControl 	abort 
 syn keyword	seConditional	then where
 syn keyword	seRepeat	foreach do
-syn keyword seFucntion		abs sqr sqrt sin cos tan acos asin atan atan2 log exp sinh cosh tanh asinh acosh atanh pow ceil floor minimum maximum ellipticE ellipticK incompleteEllipticE incompleteEllipticF matrix_multiply matrix_inverse matrix_determinant wrap_inverse wrap_compose is_defined sizeof valid_boundary valid_constraint valid_element
+syn keyword 	seFucntion	abs sqr sqrt sin cos tan acos asin atan atan2 log exp sinh cosh tanh asinh acosh atanh pow ceil floor minimum maximum ellipticE ellipticK incompleteEllipticE incompleteEllipticF matrix_multiply matrix_inverse matrix_determinant wrap_inverse wrap_compose is_defined sizeof valid_boundary valid_constraint valid_element
+syn keyword	seUserFunc	FUNCTION PROCEDURE
+syn keyword	seType		real integer string
 
 syn keyword seToggleCmd		ambient_pressure approximate_curvature area_normalization assume_oriented augmented_hessian autochop autodisplay autopop autopop_quartic autorecalc backcull bezier_basis big_endian blas_flag boundary_curvature break_after_warning break_on_warning bunch-kauffman calculate_in_3d-kauffman check_increase circular_arc_draw clip_view clipped colormap conf_edge conj_grad connected debug detorus_sticky deturck diffusion dirichlet_mode effective_area estimate facet_colors force_deletion force_edgeswap full_bounding_box nction_quantity_sparse gravity gv_binary hessian_diff hessian_normal hessian_normal_one hessian_normal_perp hessian_quiet hessian_special_normal homothety immediate_autopop interp_normals interp_bdry_param itdebug jiggle k_altitude_mode kusner linear_metric little_endian memdebug metis_factor metric_convert no_dump normal_motion old_area quantities_only quiet quietgo quietload pinning pop_disjoin pop_enjoin post_project ps_cmykflag ps_colorflag ps_crossingflag ps_gridflag ps_labelflag raw_cells rgb_colors ribiere rotate_lights runge_kutta self_similar shading show_all_edges show_all_quantities show_inner show_outer slice_view smooth_graph sobolev_mode sparse_constraints squared_gradient star_finagling thicken torus_filled transforms view_4D view_transforms_use_unique_point verbose visibility_test volgrads_every ysmp
 
@@ -156,6 +158,7 @@ if version >= 508 || !exists("did_se_syntax_inits")
   HiLink seLineContinuation	Special
 
   HiLink seElements		Type
+  HiLink seType			Type
 
   HiLink seElementsBegin	Structure
   HiLink seRead			Structure
@@ -166,6 +169,7 @@ if version >= 508 || !exists("did_se_syntax_inits")
   HiLink seRelatedElements	seAttributes
   HiLink seCoordinates		seAttributes
   HiLink seAttributes		Identifier
+  HiLink seUserFunc		Define
 
   delcommand HiLink
 endif
